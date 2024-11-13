@@ -22,5 +22,22 @@ interface TransactionService
      * @return array
      */
     public function getTransactions(string $fromDate, string $toDate, string $token): object;
+
+    /**
+     * @param string $transactionId
+     * @param string $token
+     * 
+     * @return array
+     */
     public function getTransaction(string $transactionId, string $token): object;
+
+
+    /**
+     * @param string $fromDate
+     * @param string $toDate
+     * @param string $token
+     * 
+     * @return array
+     */
+    public function getTransactionReports(string $fromDate, string $toDate, string $token): object;
 }

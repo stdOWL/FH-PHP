@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Http;
  */
 class RPDTransactionService implements TransactionService
 {
+    private $base_url;
+
+    public function __construct()
+    {
+        $this->base_url = env('RPD_PAYMENT_BASE_URL');
+    }
     /**
      * @param string $transactionId
      * 
@@ -20,7 +26,7 @@ class RPDTransactionService implements TransactionService
        
         $response = Http::withHeaders([
             'Authorization' => $token,
-        ])->post('https://sandbox-reporting.rpdpymnt.com/api/v3/client', [
+        ])->post($this->base_url . '/client', [
             'transactionId' => $transactionId,
         ]);
         return $response->object();
@@ -37,7 +43,7 @@ class RPDTransactionService implements TransactionService
     {
         $response = Http::withHeaders([
             'Authorization' => $token,
-        ])->post('https://sandbox-reporting.rpdpymnt.com/api/v3/transaction/list', [
+        ])->post($this->base_url .  '/transaction/list', [
             'fromDate' => $fromDate,
             'toDate' => $toDate,
         ]);
@@ -48,8 +54,19 @@ class RPDTransactionService implements TransactionService
     {
         $response = Http::withHeaders([
             'Authorization' => $token,
-        ])->post('https://sandbox-reporting.rpdpymnt.com/api/v3/transaction', [
+        ])->post($this->base_url .  '/transaction', [
             'transactionId' => $transactionId,
+        ]);
+        return $response->object();
+    }
+
+    public function getTransactionReports(string $fromDate, string $toDate, string $token): object
+    {
+        $response = Http::withHeaders([
+            'Authorization' => $token,
+        ])->post($this->base_url . '/transactions/report', [
+            'fromDate' => $fromDate,
+            'toDate' => $toDate,
         ]);
         return $response->object();
     }

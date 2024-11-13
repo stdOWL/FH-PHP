@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Http;
  */
 class RPDPaymentAuthService implements AuthService
 {
+    private $base_url;
+
+    public function __construct()
+    {
+        $this->base_url = env('RPD_PAYMENT_BASE_URL');
+    }
     /**
      * @param string $email
      * @param string $password
@@ -18,33 +24,11 @@ class RPDPaymentAuthService implements AuthService
      */
     public function getAccessToken(string $email, string $password): string
     {
-        $response = Http::post('https://sandbox-reporting.rpdpymnt.com/api/v3/merchant/user/login', [
+        $response = Http::post($this->base_url . '/merchant/user/login', [
             'email' => $email,
             'password' => $password,
         ]);
 
         return $response->object()->token;
-    }
-
-    /**
-     * @param string $transactionId
-     * 
-     * @return array
-     */
-
-    public function getClient(string $token): array
-    {
-       
-        $response = Http::withHeaders([
-            'Authorization' => $token,
-        ])->post('https://sandbox-reporting.rpdpymnt.com/api/v3/client', [
-            'transactionId' => $transactionId,
-        ]);
-
-        var_dump($response->object());
-        die();
-
-
-        return $response->object();
     }
 }
