@@ -17,7 +17,7 @@ class TransactionController extends Controller
 
     public function report(Request $request)
     {
-        $token = request()->header('Authorization');
+        $token = $request->header('Authorization');
         $params = $request->only('fromDate', 'toDate');
         $transactions = $this->transactionService->getTransactionReports($params['fromDate'], $params['toDate'], $token);
         return response()->json($transactions);
@@ -25,7 +25,7 @@ class TransactionController extends Controller
 
     public function list(Request $request)
     {
-        $token = request()->header('Authorization');
+        $token = $request->header('Authorization');
         $params = $request->only('fromDate', 'toDate');
         $transactions = $this->transactionService->getTransactions($params['fromDate'], $params['toDate'], $token);
         return response()->json($transactions);
@@ -33,7 +33,7 @@ class TransactionController extends Controller
 
     public function info(string $transactionId, Request $request)
     {
-        $token = request()->header('Authorization');
+        $token = $request->header('Authorization');
         $transaction = $this->transactionService->getTransaction($transactionId, $token);
         return response()->json($transaction);
     }
@@ -41,7 +41,7 @@ class TransactionController extends Controller
 
     public function client(string $transactionId, Request $request)
     {
-        $token = request()->header('Authorization');
+        $token = $request->header('Authorization');
         $client = $this->transactionService->getClient($transactionId, $token);
         return response()->json($client);
     }
