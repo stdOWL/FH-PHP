@@ -39,5 +39,5 @@ interface TransactionService
      * 
      * @return array
      */
-    public function getTransactionReports(string $fromDate, string $toDate, string $token): object;
+    public function getTransactionReports(string $fromDate, string $toDate, string $token, array $optionalParams): object;
 }
